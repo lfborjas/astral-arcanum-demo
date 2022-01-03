@@ -23,7 +23,98 @@
       const fetcher = GraphiQL.createFetcher({ url: 'https://astral-arcanum-dev.herokuapp.com/' });
 
       ReactDOM.render(
-        React.createElement(GraphiQL, { fetcher: fetcher }),
+        React.createElement(GraphiQL, { 
+          fetcher: fetcher,
+          defaultQuery: `
+# Welcome to GraphiQL for Astral Arcanum
+#
+# Type queries into this side of the screen, and you will see intelligent
+# typeaheads aware of the current GraphQL type schema and live syntax and
+# validation errors highlighted within the text.
+#
+# GraphQL queries typically start with a "{" character. Lines that start
+# with a # are ignored.
+#
+# An example GraphQL query might look like:
+#
+#     {
+#       field(arg: "value") {
+#         subField
+#       }
+#     }
+#
+# Keyboard shortcuts:
+#
+#  Prettify Query:  Shift-Ctrl-P (or press the prettify button above)
+#
+#     Merge Query:  Shift-Ctrl-M (or press the merge button above)
+#
+#       Run Query:  Ctrl-Enter (or press the play button above)
+#
+#   Auto Complete:  Ctrl-Space (or just start typing)
+#
+# A default query is provided below, feel free to edit or delete!
+{
+  moment{
+    planetPositions{
+      planet
+      longitude{
+        unSplit
+      }
+    }
+  }
+  horoscope(location: {longitude: -87.15, latitude: 14.06, name: "here"}, date: {formatted: "1989-01-06T23:30:00", year: null, month: null, day: null, hour: null, minute: null, second: null}) {
+    planetPositions {
+      planet
+      longitude {
+        zodiacSign
+        unSplit
+      }
+      speed{unSplit}
+    }
+    houseCusps {
+      houseNumber{
+        label
+        number
+      }
+      longitude {
+        unSplit
+      }
+    }
+    houseSystemUsed
+    aspects{
+      definition{
+        name
+        
+      }
+      phase
+      aspecting{
+        ... on HouseCusp{
+          houseNumber{
+            label
+          }
+        }
+        ... on PlanetPosition{
+          planet
+        }
+      }
+       aspected{
+        ... on HouseCusp{
+          houseNumber{
+            label
+          }
+        }
+        ... on PlanetPosition{
+          planet
+        }
+      }
+    }
+  }
+}
+
+
+`
+        }),
         document.getElementById('graphiql'),
       );
     </script>
